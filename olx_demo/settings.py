@@ -29,7 +29,8 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env.str("SECRET_KEY")
+# SECRET_KEY = env.str("SECRET_KEY")
+SECRET_KEY = "django-insecure-wbn#5+61davftn#8hs^%odsv6)!kgij5kg5m1)cg1vpbnhz(v5"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -166,8 +167,8 @@ CLIENT_ID = env.str("CLIENT_ID")
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
-            "client_id": CLIENT_ID,
-            "secret": SECRET,
+            "client_id": "371268618191-hl4f7upd84vkrdc3094od7ftdf0ddusl.apps.googleusercontent.com",
+            "secret": "e7wB7ezrlRxJC0TX6qhOo6Jg",
         },
     },
 }

@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
+import django_heroku
+
 from pathlib import Path
 import environ
 
@@ -169,3 +171,4 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     },
 }
+django_heroku.settings(locals())

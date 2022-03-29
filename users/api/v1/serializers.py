@@ -25,7 +25,7 @@ class GoogleSocialLoginSerializer(serializers.Serializer):
     access_token = serializers.CharField(required=False, allow_blank=True)
     code = serializers.CharField(required=False, allow_blank=True)
     google_id = serializers.CharField(max_length=250)
-    image = serializers.ImageField()
+    image = serializers.CharField(max_length=250)
     username = serializers.CharField(max_length=250)
 
     def _get_request(self):

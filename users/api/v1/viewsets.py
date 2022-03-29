@@ -32,6 +32,6 @@ class GoogleLoginView(SocialLoginView):
             user.google_id = serializer.initial_data['google_id']
             user.save()
         return Response({'token': token.key, 'id': token.user_id, 'username': user.username,
-                         "google_id": user.google_id, "image": user.image.url})
+                         "google_id": user.google_id, "image": user.image})
 
 

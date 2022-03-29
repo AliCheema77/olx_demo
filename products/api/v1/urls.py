@@ -8,5 +8,6 @@ router.register("categories", CategoryViewSet, basename="categories")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("sub_categories/<int:id>/", SubCategoryViewSet.as_view(), name="categories")
+    path("sub_categories/", SubCategoryViewSet.as_view(), name="categories"),
+    path("sub_categories/<int:id>/", SubCategoryViewSet.as_view(), name="categories_id")
 ]

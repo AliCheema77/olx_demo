@@ -30,9 +30,33 @@ class PostImageSerializer(serializers.ModelSerializer):
 
 
 class CarPostSerializer(serializers.ModelSerializer):
+    image = PostImageSerializer(source='post', many=True, read_only=True)
 
     class Meta:
         model = Post
         fields = ['id', 'user', 'category', 'sub_category', 'ad_title', 'description', 'make', 'model', 'year',
-                  'km_driven', 'fuel', 'registered_in', 'condition', 'price', 'location', 'city', 'phone_number',
+                  'km_driven', 'fuel', 'registered_in', 'condition', 'image', 'price', 'location', 'city', 'name',
+                  'phone_number', 'show_phone_number']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['user'] = instance.user.username
+        data['category'] = instance.category.title
+        data['sub_category'] = instance.sub_category.title
+        return data
+
+
+class LandAndPlotPostSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = ['id', 'user', 'category', 'sub_category', 'ad_title', 'description', 'type', 'features', 'aria_unit',
+                  'area', 'image', 'price', 'location', 'city', 'name', 'phone_number',
                   'show_phone_number']
+
+    def to_representation(self, instance):
+        data = super(CarPostSerializer).to_representation(instance)
+        data['user'] = instance.user.username
+        data['category'] = instance.category.title
+        data['sub_category'] = instance.sub_category.title
+        return data

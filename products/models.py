@@ -43,9 +43,16 @@ class Post(models.Model):
     fuel = models.CharField(max_length=100, null=True, blank=True)
     registered_in = models.CharField(max_length=100, null=True, blank=True)
     condition = models.CharField(choices=(('new', 'New'), ('used', 'Used')), max_length=10, null=True, blank=True)
+    type = models.CharField(max_length=100, null=True, blank=True)
+    features = models.CharField(max_length=100, null=True, blank=True)
+    aria_unit = models.CharField(choices=(('kanal', 'Kanal'), ('marla', 'Marla'), ('square_feet', 'Square Feet'),
+                                          ('square_meter', 'Square Meter'), ('square_yards', 'Square Yards')),
+                                 null=True, blank=True, max_length=30)
+    area = models.PositiveIntegerField(null=True, blank=True)
     price = models.PositiveIntegerField()
     location = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     show_phone_number = models.BooleanField(default=False)
 

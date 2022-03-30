@@ -26,7 +26,7 @@ class SubCategoryViewSet(APIView):
         return Response({'response': serializer.data}, status=status.HTTP_200_OK)
 
 
-class PostImageViewSet(APIView):
+class GetImageViewSet(APIView):
     serializer_class = PostImageSerializer
 
     def get(self, request, id=None):
@@ -35,6 +35,10 @@ class PostImageViewSet(APIView):
             serializer = self.serializer_class(images, many=True)
             return Response({"respone": serializer.data}, status=status.HTTP_200_OK)
         return Response({"response": "Given id is not exist"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PostImageViewSet(APIView):
+    serializer_class = PostImageSerializer
 
     def post(self, request):
         serializer = self.serializer_class(data=request.data)

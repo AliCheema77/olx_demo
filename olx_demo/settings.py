@@ -39,9 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
-    'cloudinary',
     'django.contrib.sites',
     'users',
     'products',
@@ -142,11 +140,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -168,12 +164,6 @@ SOCIALACCOUNT_PROVIDERS = {
             "secret": "e7wB7ezrlRxJC0TX6qhOo6Jg",
         },
     },
-}
-
-CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'dlzrvw7pe',
-    'API_KEY': '217375384818832',
-    'API_SECRET': 'LWylYpbXLFAl5l2xbQ6LMc3ZAfA'
 }
 
 django_heroku.settings(locals())

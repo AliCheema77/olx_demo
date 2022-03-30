@@ -4,7 +4,7 @@ from products.models import Category, SubCategory
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['title']
+    list_display = ['title', 'image']
 
 
 @admin.register(SubCategory)

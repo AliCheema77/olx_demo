@@ -8,8 +8,7 @@ User = get_user_model()
 
 class Category(models.Model):
     title = models.CharField(max_length=150)
-    image = models.FileField(upload_to="category/", validators=[FileExtensionValidator(['pdf', 'doc', 'svg'])],
-                             null=True, blank=True)
+    image = models.CharField(max_length=250, null=True, blank=True)
 
     class Meta:
         verbose_name = "Category"

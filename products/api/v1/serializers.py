@@ -22,6 +22,17 @@ class PostImageSerializer(serializers.ModelSerializer):
         model = PostImage
         fields = ['id', 'post', 'image']
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        request = self.context.get('request')
+        data['post'] = instance.post.user.username
+        return data
 
-class CarPostSerializer(serializers.Serializer):
-    pass
+
+class CarPostSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = ['id', 'user', 'category', 'sub_category', 'ad_title', 'description', 'make', 'model', 'year',
+                  'km_driven', 'fuel', 'registered_in', 'condition', 'price', 'location', 'city', 'phone_number',
+                  'show_phone_number']

@@ -35,8 +35,8 @@ class CarPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'user', 'category', 'sub_category', 'ad_title', 'description', 'make', 'model', 'year',
-                  'km_driven', 'fuel', 'registered_in', 'condition', 'image', 'price', 'location', 'city', 'name',
-                  'phone_number', 'show_phone_number']
+                  'km_driven', 'fuel', 'registered_in', 'condition', 'image', 'price', 'location',
+                  'city', 'name', 'phone_number', 'show_phone_number']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

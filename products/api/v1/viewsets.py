@@ -93,7 +93,7 @@ class GetDataByUserView(APIView):
 class CarPostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = CarPostSerializer
-    http_method_names = ['post', 'put' 'update', 'delete']
+    http_method_names = ['post', 'put' 'patch', 'delete']
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -106,7 +106,7 @@ class CarPostViewSet(ModelViewSet):
 class LanAndPlotPostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = LandAndPlotPostSerializer
-    http_method_names = ['post', 'put' 'update', 'delete']
+    http_method_names = ['post', 'put' 'patch', 'delete']
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)

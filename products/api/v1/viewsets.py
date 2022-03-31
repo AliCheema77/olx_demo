@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from products.models import Category, SubCategory, Post, PostImage
 from products.api.v1.serializers import CategorySerializer, SubCategorySerializer, PostImageSerializer,\
-    CarPostSerializer, LandAndPlotPostSerializer
+    CarPostSerializer, LandAndPlotPostSerializer, GetDataBySubCategorySerializer, GetDataByUserSerializer
 
 
 def modify_input_for_multiple_files(post, image):
@@ -72,9 +72,28 @@ class PostImageViewSet(APIView):
             return Response(arr, status=status.HTTP_400_BAD_REQUEST)
 
 
+class GetDataBySubCategoryView(APIView):
+    serializer_class = GetDataBySubCategorySerializer
+
+    def get(self, request, sub_category):
+        posts_by_sub_category = Post.objects.filter(sub_category__title__iexact=sub_category)
+        serializer = self.serializer_class(posts_by_sub_category, many=True)
+        return Response({"response": serializer.data}, status=status.HTTP_200_OK)
+
+
+class GetDataByUserView(APIView):
+    serializer_class = GetDataBySubCategorySerializer
+
+    def get(self, request, user_id):
+        posts_by_sub_category = Post.objects.filter(user_id=user_id)
+        serializer = self.serializer_class(posts_by_sub_category, many=True)
+        return Response({"response": serializer.data}, status=status.HTTP_200_OK)
+
+
 class CarPostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = CarPostSerializer
+    http_method_names = ['post', 'put' 'update', 'delete']
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -87,6 +106,7 @@ class CarPostViewSet(ModelViewSet):
 class LanAndPlotPostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = LandAndPlotPostSerializer
+    http_method_names = ['post', 'put' 'update', 'delete']
 
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -94,5 +114,8 @@ class LanAndPlotPostViewSet(ModelViewSet):
             serializer.save()
             return Response({"response": serializer.data}, status=status.HTTP_201_CREATED)
         return Response({"response": "There some error"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 

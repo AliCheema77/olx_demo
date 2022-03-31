@@ -29,6 +29,20 @@ class PostImageSerializer(serializers.ModelSerializer):
         return data
 
 
+class GetDataBySubCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
+class GetDataByUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = '__all__'
+
+
 class CarPostSerializer(serializers.ModelSerializer):
     image = PostImageSerializer(source='post', many=True, read_only=True)
 

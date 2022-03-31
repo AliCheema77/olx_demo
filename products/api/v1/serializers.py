@@ -1,4 +1,4 @@
-from rest_framework import serializers
+from rest_framework import serializers, fields
 from products.models import Category, SubCategory, PostImage, Post
 
 
@@ -62,6 +62,7 @@ class CarPostSerializer(serializers.ModelSerializer):
 
 class LandAndPlotPostSerializer(serializers.ModelSerializer):
     image = PostImageSerializer(source='post', many=True, read_only=True)
+    features = fields.MultipleChoiceField(choices="")
 
     class Meta:
         model = Post

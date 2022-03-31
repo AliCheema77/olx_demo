@@ -47,6 +47,7 @@ class CarPostSerializer(serializers.ModelSerializer):
 
 
 class LandAndPlotPostSerializer(serializers.ModelSerializer):
+    image = PostImageSerializer(source='post', many=True, read_only=True)
 
     class Meta:
         model = Post
@@ -55,7 +56,7 @@ class LandAndPlotPostSerializer(serializers.ModelSerializer):
                   'show_phone_number']
 
     def to_representation(self, instance):
-        data = super(CarPostSerializer).to_representation(instance)
+        data = super().to_representation(instance)
         data['user'] = instance.user.username
         data['category'] = instance.category.title
         data['sub_category'] = instance.sub_category.title

@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'corsheaders',
-    'multiselectfield',
 ]
 
 SITE_ID = 1

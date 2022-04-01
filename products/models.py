@@ -1,3 +1,4 @@
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.validators import FileExtensionValidator
@@ -44,7 +45,12 @@ class Post(models.Model):
     registered_in = models.CharField(max_length=100, null=True, blank=True)
     condition = models.CharField(choices=(('new', 'New'), ('used', 'Used')), max_length=10, null=True, blank=True)
     type = models.CharField(max_length=100, null=True, blank=True)
-    features = models.CharField(max_length=100, null=True, blank=True)
+    # features = models.CharField(max_length=100, null=True, blank=True)
+    features = ArrayField(
+            models.CharField(max_length=250, blank=True, null=True),
+            size=50,
+            null=True, blank=True
+    )
     aria_unit = models.CharField(choices=(('kanal', 'Kanal'), ('marla', 'Marla'), ('square_feet', 'Square Feet'),
                                           ('square_meter', 'Square Meter'), ('square_yards', 'Square Yards')),
                                  null=True, blank=True, max_length=30)

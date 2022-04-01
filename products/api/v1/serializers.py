@@ -35,12 +35,26 @@ class GetDataBySubCategorySerializer(serializers.ModelSerializer):
         model = Post
         fields = '__all__'
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['user'] = instance.user.username
+        data['category'] = instance.category.title
+        data['sub_category'] = instance.sub_category.title
+        return data
+
 
 class GetDataByUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
         fields = '__all__'
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['user'] = instance.user.username
+        data['category'] = instance.category.title
+        data['sub_category'] = instance.sub_category.title
+        return data
 
 
 class CarPostSerializer(serializers.ModelSerializer):
@@ -62,6 +76,7 @@ class CarPostSerializer(serializers.ModelSerializer):
 
 class LandAndPlotPostSerializer(serializers.ModelSerializer):
     image = PostImageSerializer(source='post', many=True, read_only=True)
+    features = serializers.ListField(child=serializers.CharField())
 
     class Meta:
         model = Post

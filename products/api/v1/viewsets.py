@@ -90,8 +90,10 @@ class GetAllPostAdsViewSet(ModelViewSet):
         category = request.query_params.get('category')
         sub_category = request.query_params.get('sub_category')
         location = request.query_params.get('location')
+        min_price = request.query_params.get('min_price')
+        max_price = request.query_params.get('max_price')
         posts = ""
-        if category is None and sub_category is None:
+        if category is None and sub_category is None and location is None and min_price is None and max_price is None:
             posts = self.queryset
         if category:
             posts = self.queryset.filter(category__title__iexact=category)
@@ -99,6 +101,8 @@ class GetAllPostAdsViewSet(ModelViewSet):
             posts = self.queryset.filter(sub_category__title__iexact=sub_category)
         if location:
             posts = self.queryset.filter(location__iexact=location)
+        if min_price and max_price:
+            posts = self.queryset.filter(price__lte=max_price, price__gte=min_price)
 
         serializer = self.get_serializer(posts, many=True)
         return Response({"response": serializer.data}, status=status.HTTP_200_OK)

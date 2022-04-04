@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from products.models import Category, SubCategory, Post, PostImage
 from products.api.v1.serializers import CategorySerializer, SubCategorySerializer, PostImageSerializer,\
-    CarPostSerializer, LandAndPlotPostSerializer, GetDataBySubCategorySerializer, GetDataByUserSerializer
+    CarPostSerializer, LandAndPlotPostSerializer, GetPostSerializer
 
 
 def modify_input_for_multiple_files(post, image):
@@ -73,7 +73,7 @@ class PostImageViewSet(APIView):
 
 
 class GetDataBySubCategoryView(APIView):
-    serializer_class = GetDataBySubCategorySerializer
+    serializer_class = GetPostSerializer
 
     def get(self, request, sub_category):
         posts_by_sub_category = Post.objects.filter(sub_category__title__iexact=sub_category)
@@ -81,8 +81,14 @@ class GetDataBySubCategoryView(APIView):
         return Response({"response": serializer.data}, status=status.HTTP_200_OK)
 
 
+class GetAllPostAdsViewSet(ModelViewSet):
+    serializer_class = GetPostSerializer
+    queryset = Post.objects.all()
+    http_method_names = ['get']
+
+
 class GetDataByUserView(APIView):
-    serializer_class = GetDataBySubCategorySerializer
+    serializer_class = GetPostSerializer
 
     def get(self, request, user_id):
         posts_by_sub_category = Post.objects.filter(user_id=user_id)

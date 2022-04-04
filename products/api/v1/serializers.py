@@ -34,21 +34,7 @@ class PostImageSerializer(serializers.ModelSerializer):
         return
 
 
-class GetDataBySubCategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Post
-        fields = '__all__'
-
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['user'] = instance.user.username
-        data['category'] = instance.category.title
-        data['sub_category'] = instance.sub_category.title
-        return data
-
-
-class GetDataByUserSerializer(serializers.ModelSerializer):
+class GetPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post

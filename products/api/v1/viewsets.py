@@ -112,8 +112,11 @@ class GetDataByUserView(APIView):
     serializer_class = GetPostSerializer
 
     def get(self, request, user_id):
-        posts_by_sub_category = Post.objects.filter(user_id=user_id)
-        serializer = self.serializer_class(posts_by_sub_category, many=True)
+        posts = Post.objects.filter(user_id=user_id)
+        current_status = request.query_params.get('status')
+        if current_status:
+            posts = Post.objects.filter(user_id=user_id, status=current_status)
+        serializer = self.serializer_class(posts, many=True)
         return Response({"response": serializer.data}, status=status.HTTP_200_OK)
 
 

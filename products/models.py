@@ -32,6 +32,12 @@ class SubCategory(models.Model):
 
 
 class Post(models.Model):
+    STATUS_CHOICES = (
+        ('active', 'Active'),
+        ('inactive', 'Inactive'),
+        ('pending', 'Pending'),
+        ('moderated', 'Moderated')
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_post", null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="category_post")
     sub_category = models.ForeignKey(SubCategory, on_delete=models.CASCADE, related_name="sub_category_post")
@@ -57,6 +63,7 @@ class Post(models.Model):
     location = models.CharField(max_length=100, null=True, blank=True)
     city = models.CharField(max_length=100, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
+    status = models.CharField(choices=STATUS_CHOICES, max_length=50, null=True, blank=True)
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     show_phone_number = models.BooleanField(default=False)
 

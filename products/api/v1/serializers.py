@@ -2,18 +2,23 @@ from rest_framework import serializers
 from products.models import Category, SubCategory, PostImage, Post
 
 
-class CategorySerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Category
-        fields = ['id', 'title', 'image']
-
-
 class SubCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SubCategory
         fields = ['id', 'title', 'category']
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        return data
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    category = SubCategorySerializer(many=True)
+
+    class Meta:
+        model = Category
+        fields = ['id', 'title', 'image', 'category']
 
 
 class PostImageSerializer(serializers.ModelSerializer):
@@ -26,7 +31,7 @@ class PostImageSerializer(serializers.ModelSerializer):
         data = super().to_representation(instance)
         request = self.context.get('request')
         data['post'] = instance.post.user.username
-        return data
+        return
 
 
 class GetDataBySubCategorySerializer(serializers.ModelSerializer):

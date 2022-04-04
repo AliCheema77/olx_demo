@@ -51,9 +51,7 @@ class Post(models.Model):
             size=50,
             null=True, blank=True
     )
-    aria_unit = models.CharField(choices=(('kanal', 'Kanal'), ('marla', 'Marla'), ('square_feet', 'Square Feet'),
-                                          ('square_meter', 'Square Meter'), ('square_yards', 'Square Yards')),
-                                 null=True, blank=True, max_length=30)
+    aria_unit = models.CharField(null=True, blank=True, max_length=30)
     area = models.PositiveIntegerField(null=True, blank=True)
     price = models.PositiveIntegerField()
     location = models.CharField(max_length=100, null=True, blank=True)

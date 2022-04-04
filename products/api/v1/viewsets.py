@@ -86,6 +86,23 @@ class GetAllPostAdsViewSet(ModelViewSet):
     queryset = Post.objects.all()
     http_method_names = ['get']
 
+    def list(self, request, *args, **kwargs):
+        category = request.query_params.get('category')
+        sub_category = request.query_params.get('sub_category')
+        location = request.query_params.get('location')
+        posts = ""
+        if category is None and sub_category is None:
+            posts = self.queryset
+        if category:
+            posts = self.queryset.filter(category__title__iexact=category)
+        if sub_category:
+            posts = self.queryset.filter(sub_category__title__iexact=sub_category)
+        if location:
+            posts = self.queryset.filter(location__iexact=location)
+
+        serializer = self.get_serializer(posts, many=True)
+        return Response({"response": serializer.data}, status=status.HTTP_200_OK)
+
 
 class GetDataByUserView(APIView):
     serializer_class = GetPostSerializer

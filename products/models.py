@@ -67,6 +67,9 @@ class Post(models.Model):
     phone_number = models.CharField(max_length=100, null=True, blank=True)
     show_phone_number = models.BooleanField(default=False)
 
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated = models.DateTimeField(auto_now=True, null=True, blank=True)
+
     def __str__(self):
         return self.ad_title
 
@@ -76,7 +79,7 @@ class Post(models.Model):
 
 
 class PostImage(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_images")
     image = models.ImageField(upload_to='post/')
 
     def __str__(self):

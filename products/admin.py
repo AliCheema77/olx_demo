@@ -19,5 +19,5 @@ class PostImageAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['ad_title', 'description']
+    list_display = ['ad_title', 'description', 'created', 'updated']
 

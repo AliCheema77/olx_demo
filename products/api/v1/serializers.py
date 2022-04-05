@@ -27,14 +27,9 @@ class PostImageSerializer(serializers.ModelSerializer):
         model = PostImage
         fields = ['id', 'post', 'image']
 
-    def to_representation(self, instance):
-        data = super().to_representation(instance)
-        request = self.context.get('request')
-        data['post'] = instance.post.user.username
-        return
-
 
 class GetPostSerializer(serializers.ModelSerializer):
+    post_images = PostImageSerializer(many=True)
 
     class Meta:
         model = Post
@@ -55,7 +50,7 @@ class CarPostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'user', 'category', 'sub_category', 'ad_title', 'description', 'make', 'model', 'year',
                   'km_driven', 'fuel', 'registered_in', 'condition', 'image', 'price', 'location',
-                  'city', 'name', 'status', 'phone_number', 'show_phone_number']
+                  'city', 'name', 'status', 'phone_number', 'show_phone_number', 'created', 'updated']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -73,7 +68,7 @@ class LandAndPlotPostSerializer(serializers.ModelSerializer):
         model = Post
         fields = ['id', 'user', 'category', 'sub_category', 'ad_title', 'description', 'type', 'features', 'aria_unit',
                   'area', 'image', 'price', 'location', 'city', 'name', 'status', 'phone_number',
-                  'show_phone_number']
+                  'show_phone_number', 'created', 'updated']
 
     def to_representation(self, instance):
         data = super().to_representation(instance)

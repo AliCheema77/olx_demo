@@ -6,6 +6,7 @@ from rest_framework import status
 from products.models import Category, SubCategory, Post, PostImage
 from products.api.v1.serializers import CategorySerializer, SubCategorySerializer, PostImageSerializer,\
     CarPostSerializer, LandAndPlotPostSerializer, GetPostSerializer
+from django.db.models import Q
 
 
 def modify_input_for_multiple_files(post, image):
@@ -145,6 +146,44 @@ class LanAndPlotPostViewSet(ModelViewSet):
             return Response({"response": serializer.data}, status=status.HTTP_201_CREATED)
         return Response({"response": "There some error"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class VehicleFilterView(APIView):
+    serializer_class = GetPostSerializer
+
+    def get(self, request, sub_category_title=None):
+        response = {}
+        queryset = Post.objects.filter(sub_category__title__iexact=sub_category_title)
+        min_year = request.query_params.get('min_year', 0)
+        max_year = request.query_params.get('max_year', 0)
+        min_driven = request.query_params.get('min_km_driven', 0)
+        max_driven = request.query_params.get('max_km_driven', 0)
+        min_price = request.query_params.get('min_price', 0)
+        max_price = request.query_params.get('max_price', 0)
+        fuel = request.query_params.get('fuel', [])
+        if fuel is not None and type(fuel) is not list:
+            fuel = fuel.split(',')
+        registration = request.query_params.get('registration', [])
+        if registration is not None and type(registration) is not list:
+            registration = registration.split(',')
+        condition = request.query_params.get('condition', [])
+        if condition is not None and type(condition) is not list:
+            condition = condition.split(',')
+        make = request.query_params.get('make', [])
+        if make is not None and type(make) is not list:
+            make = make.split(',')
+        model = request.query_params.get('model', [])
+        if model is not None and type(model) is not list:
+            model = model.split(',')
+        posts = queryset.filter(
+                                    Q(year__gte=min_year, year__lte=max_year) |
+                                    Q(km_driven__gte=min_driven, km_driven__lte=max_driven) |
+                                    Q(price__gte=min_price, price__lte=max_price) |
+                                    Q(fuel__in=fuel) | Q(registered_in__in=registration) | Q(condition__in=condition) |
+                                    Q(make__in=make) | Q(model__in=model))
+        if request.query_params == {}:
+            posts = queryset
+        serializer = self.serializer_class(posts, many=True)
+        return Response({'response': serializer.data}, status=status.HTTP_200_OK)
 
 
 

@@ -209,12 +209,12 @@ class PropertyForSaleFilterView(APIView):
         location = request.query_params.get('location')
         if location is not None:
             queryset = queryset.filter(location__icontains=location)
-        min_year = request.query_params.get('min_year')
-        if min_year is not None:
-            queryset = queryset.filter(year__gte=min_year)
-        max_year = request.query_params.get('max_year')
-        if max_year is not None:
-            queryset = queryset.filter(year__lte=max_year)
+        min_price = request.query_params.get('min_price')
+        if min_price is not None:
+            queryset = queryset.filter(price__gte=min_price)
+        max_price = request.query_params.get('max_price')
+        if max_price is not None:
+            queryset = queryset.filter(price__lte=max_price)
         min_area = request.query_params.get('min_area')
         if min_area is not None:
             queryset = queryset.filter(area__gte=min_area)

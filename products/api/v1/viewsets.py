@@ -155,7 +155,7 @@ class VehicleFilterView(APIView):
         queryset = Post.objects.filter(sub_category__title__iexact=sub_category_title)
         location = request.query_params.get('location')
         if location is not None:
-            queryset = queryset.filter(location__iexact=location)
+            queryset = queryset.filter(location__icontains=location)
         min_year = request.query_params.get('min_year')
         if min_year is not None:
             queryset = queryset.filter(year__gte=min_year)

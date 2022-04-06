@@ -151,35 +151,34 @@ class VehicleFilterView(APIView):
     serializer_class = GetPostSerializer
 
     def get(self, request, sub_category_title=None):
-        posts = ""
         response = {}
         queryset = Post.objects.filter(sub_category__title__iexact=sub_category_title)
         min_year = request.query_params.get('min_year')
         if min_year is not None:
-            posts = queryset.filter(year__gte=min_year)
+            queryset = queryset.filter(year__gte=min_year)
         max_year = request.query_params.get('max_year')
         if max_year is not None:
-            posts = queryset.filter(year__lte=max_year)
+            queryset = queryset.filter(year__lte=max_year)
         min_driven = request.query_params.get('min_km_driven')
         if min_driven is not None:
-            posts = queryset.filter(km_driven__gte=min_driven)
+            queryset = queryset.filter(km_driven__gte=min_driven)
         max_driven = request.query_params.get('max_km_driven')
         if max_driven is not None:
-            posts = queryset.filter(km_driven__lte=max_driven)
+            queryset = queryset.filter(km_driven__lte=max_driven)
         min_price = request.query_params.get('min_price')
         if min_price is not None:
-            posts = queryset.filter(price__gte=min_price)
+            queryset = queryset.filter(price__gte=min_price)
         max_price = request.query_params.get('max_price')
         if max_price is not None:
-            posts = queryset.filter(price__lte=max_price)
+            queryset = queryset.filter(price__lte=max_price)
         fuel = request.query_params.get('fuel')
         if fuel is not None:
             fuel = fuel.split(',')
-            posts = queryset.filter(fuel__in=fuel)
+            queryset = queryset.filter(fuel__in=fuel)
         registration = request.query_params.get('registration')
         if registration is not None:
             registration = registration.split(',')
-            posts = queryset.filter(registered_in__in=registration)
+            queryset = queryset.filter(registered_in__in=registration)
         condition = request.query_params.get('condition')
         if condition is not None:
             condition = condition.split(',')
@@ -187,21 +186,15 @@ class VehicleFilterView(APIView):
         make = request.query_params.get('make')
         if make is not None:
             make = make.split(',')
-            posts = queryset.filter(make__in=make)
+            queryset = queryset.filter(make__in=make)
         model = request.query_params.get('model')
         if model is not None:
             model = model.split(',')
-            posts = queryset.filter(model__in=model)
+            queryset = queryset.filter(model__in=model)
         if request.query_params == {}:
-            posts = queryset
-        serializer = self.serializer_class(posts, many=True)
-        response['serializer'] = serializer.data
-        response['punjab'] = queryset.filter(location="punjab").count()
-        response['blochistan'] = queryset.filter(location="blochistan").count()
-        response['khaber_pakhtunekwa'] = queryset.filter(location="kpk").count()
-        response['sind'] = queryset.filter(location="sind").count()
-        response['azad_kashmir'] = queryset.filter(location="azad_kashmir").count()
-        return Response({'res': response}, status=status.HTTP_200_OK)
+            queryset = queryset
+        serializer = self.serializer_class(queryset, many=True)
+        return Response({'res': serializer.data}, status=status.HTTP_200_OK)
 
 
 

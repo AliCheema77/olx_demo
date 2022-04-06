@@ -200,5 +200,42 @@ class VehicleFilterView(APIView):
         return Response({'res': serializer.data}, status=status.HTTP_200_OK)
 
 
+class PropertyForSaleFilterView(APIView):
+    serializer_class = GetPostSerializer
+
+    def get(self, request, sub_category_title=None):
+        response = {}
+        queryset = Post.objects.filter(sub_category__title__iexact=sub_category_title)
+        location = request.query_params.get('location')
+        if location is not None:
+            queryset = queryset.filter(location__icontains=location)
+        min_year = request.query_params.get('min_year')
+        if min_year is not None:
+            queryset = queryset.filter(year__gte=min_year)
+        max_year = request.query_params.get('max_year')
+        if max_year is not None:
+            queryset = queryset.filter(year__lte=max_year)
+        min_area = request.query_params.get('min_area')
+        if min_area is not None:
+            queryset = queryset.filter(area__gte=min_area)
+        max_area = request.query_params.get('max_area')
+        if max_area is not None:
+            queryset = queryset.filter(area__lte=max_area)
+        property_type = request.query_params.get('property_type')
+        if property_type is not None:
+            property_type = property_type.split(',')
+            queryset = queryset.filter(area__in=property_type)
+        features = request.query_params.get('features')
+        if features is not None:
+            features = features.split(',')
+            queryset = queryset.filter(features__in=features)
+        area_unit = request.query_params.get('area_unit')
+        if area_unit is not None:
+            queryset = queryset.filter(aria_unit__iexact=area_unit)
+        if request.query_params == {}:
+            queryset = queryset
+        serializer = self.serializer_class(queryset, many=True)
+        return Response({'res': serializer.data}, status=status.HTTP_200_OK)
+
 
 

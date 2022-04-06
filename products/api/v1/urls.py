@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from products.api.v1.viewsets import CategoryViewSet, SubCategoryViewSet, PostImageViewSet, CarPostViewSet,\
     GetImageViewSet, LanAndPlotPostViewSet, GetDataBySubCategoryView, GetDataByUserView, GetAllPostAdsViewSet,\
-    VehicleFilterView
+    VehicleFilterView, PropertyForSaleFilterView
 
 router = DefaultRouter()
 router.register("categories", CategoryViewSet, basename="categories")
@@ -20,4 +20,5 @@ urlpatterns = [
     path("get_by_sub_category/<str:sub_category>/", GetDataBySubCategoryView.as_view(), name="get_by_sub_category"),
     path("get_by_user/<int:user_id>/", GetDataByUserView.as_view(), name="get_by_user"),
     path("vehicle_filter/<str:sub_category_title>/", VehicleFilterView.as_view(), name="car_filter"),
+    path("property_filter/<str:sub_category_title>/", PropertyForSaleFilterView.as_view(), name="car_filter"),
 ]

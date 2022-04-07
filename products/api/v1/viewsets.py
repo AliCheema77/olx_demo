@@ -299,4 +299,41 @@ class CategoryFilterView(APIView):
         return Response({'res': response}, status=status.HTTP_200_OK)
 
 
+class SearchPostByTitleView(APIView):
+    serializer_class = GetPostSerializer
+
+    def get(self, request):
+        response = {}
+        queryset = Post.objects.all()
+        title = request.query_params.get('title')
+        if title is not None:
+            queryset = queryset.filter(ad_title__icontains=title)
+        location = request.query_params.get('location')
+        if location is not None:
+            queryset = queryset.filter(location__icontains=location)
+        min_price = request.query_params.get('min_price')
+        if min_price is not None:
+            queryset = queryset.filter(price__gte=min_price)
+        max_price = request.query_params.get('max_price')
+        if max_price is not None:
+            queryset = queryset.filter(price__lte=max_price)
+        city = request.query_params.get('city')
+        if city is not None:
+            queryset = queryset.filter(city=city)
+        serializer = self.serializer_class(queryset, many=True)
+        response['response'] = serializer.data
+        post_per_location = Post.objects.values("location"). \
+            annotate(count=Count('location'))
+        for i in range(len(post_per_location)):
+            key = post_per_location[i].get('location')
+            value = post_per_location[i].get('count')
+            response[key] = value
+        post_per_city = Post.objects.values('city'). \
+            annotate(count=Count('city'))
+        for i in range(len(post_per_city)):
+            key = post_per_city[i].get('city')
+            value = post_per_city[i].get('count')
+            response[key] = value
+        return Response({'res': response}, status=status.HTTP_200_OK)
+
 

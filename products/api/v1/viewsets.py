@@ -205,8 +205,8 @@ class VehicleFilterView(APIView):
             value = post_per_location[0].get('count')
             response[key] = value
         post_per_city = filter_set.values("city").annotate(count=Count('city'))
-        for i in range(len(post_per_location)):
-            key = post_per_city[0].get('location')
+        for i in range(len(post_per_city)):
+            key = post_per_city[0].get('city')
             value = post_per_city[0].get('count')
             response[key] = value
         return Response({'res': response}, status=status.HTTP_200_OK)
@@ -255,8 +255,8 @@ class PropertyForSaleFilterView(APIView):
             value = post_per_location[0].get('count')
             response[key] = value
         post_per_city = filter_set.values("city").annotate(count=Count('city'))
-        for i in range(len(post_per_location)):
-            key = post_per_city[0].get('location')
+        for i in range(len(post_per_city)):
+            key = post_per_city[0].get('city')
             value = post_per_city[0].get('count')
             response[key] = value
         return Response({'res': response}, status=status.HTTP_200_OK)

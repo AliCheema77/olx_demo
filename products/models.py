@@ -49,7 +49,7 @@ class Post(models.Model):
     km_driven = models.PositiveIntegerField(null=True, blank=True)
     fuel = models.CharField(max_length=100, null=True, blank=True)
     registered_in = models.CharField(max_length=100, null=True, blank=True)
-    condition = models.CharField(choices=(('new', 'New'), ('used', 'Used')), max_length=10, null=True, blank=True)
+    condition = models.CharField(max_length=10, null=True, blank=True)
     type = models.CharField(max_length=100, null=True, blank=True)
     # features = models.CharField(max_length=100, null=True, blank=True)
     features = ArrayField(

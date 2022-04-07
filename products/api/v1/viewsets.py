@@ -186,7 +186,7 @@ class VehicleFilterView(APIView):
         condition = request.query_params.get('condition')
         if condition is not None:
             condition = condition.split(',')
-            posts = queryset.filter(condition__in=condition)
+            queryset = queryset.filter(condition__in=condition)
         make = request.query_params.get('make')
         if make is not None:
             make = make.split(',')

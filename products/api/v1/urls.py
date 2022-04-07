@@ -22,5 +22,5 @@ urlpatterns = [
     path("vehicle_filter/<str:sub_category_title>/", VehicleFilterView.as_view(), name="vehicle_filter"),
     path("property_filter/<str:sub_category_title>/", PropertyForSaleFilterView.as_view(), name="property_filter"),
     path("category_filter/<str:category_title>/", CategoryFilterView.as_view(), name="category_filter"),
-    path("search_post_by_title/", SearchPostByTitleView.as_view(), name="search_post_by_title")
+    path("search_post_by_title/<str:title>/", SearchPostByTitleView.as_view(), name="search_post_by_title")
 ]

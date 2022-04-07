@@ -302,12 +302,9 @@ class CategoryFilterView(APIView):
 class SearchPostByTitleView(APIView):
     serializer_class = GetPostSerializer
 
-    def get(self, request):
+    def get(self, request, title=None):
         response = {}
-        queryset = Post.objects.all()
-        title = request.query_params.get('title')
-        if title is not None:
-            queryset = queryset.filter(ad_title__icontains=title)
+        queryset = Post.objects.filter(ad_title__icontains=title)
         location = request.query_params.get('location')
         if location is not None:
             queryset = queryset.filter(location__icontains=location)
@@ -323,13 +320,13 @@ class SearchPostByTitleView(APIView):
         serializer = self.serializer_class(queryset, many=True)
         response['response'] = serializer.data
         post_per_location = Post.objects.values("location"). \
-            annotate(count=Count('location'))
+            annotate(count=Count('location', filter=Q(ad_title__icontains=title)))
         for i in range(len(post_per_location)):
             key = post_per_location[i].get('location')
             value = post_per_location[i].get('count')
             response[key] = value
         post_per_city = Post.objects.values('city'). \
-            annotate(count=Count('city'))
+            annotate(count=Count('city', filter=Q(ad_title__icontains=title)))
         for i in range(len(post_per_city)):
             key = post_per_city[i].get('city')
             value = post_per_city[i].get('count')

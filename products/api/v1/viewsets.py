@@ -84,7 +84,7 @@ class GetDataBySubCategoryView(APIView):
 
 class GetAllPostAdsViewSet(ModelViewSet):
     serializer_class = GetPostSerializer
-    queryset = Post.objects.all()
+    queryset = Post.objects.none()
     http_method_names = ['get']
 
     def list(self, request, *args, **kwargs):
@@ -93,19 +93,20 @@ class GetAllPostAdsViewSet(ModelViewSet):
         location = request.query_params.get('location')
         min_price = request.query_params.get('min_price')
         max_price = request.query_params.get('max_price')
-        posts = ""
-        if category is None and sub_category is None and location is None and min_price is None and max_price is None:
-            posts = self.queryset
-        if category:
-            posts = self.queryset.filter(category__title__iexact=category)
+        queryset = Post.objects.all()
+        if category is not None:
+            queryset = queryset.filter(category__title__iexact=category)
         if sub_category:
-            posts = self.queryset.filter(sub_category__title__iexact=sub_category)
-        if location:
-            posts = self.queryset.filter(location__iexact=location)
-        if min_price and max_price:
-            posts = self.queryset.filter(price__lte=max_price, price__gte=min_price)
-
-        serializer = self.get_serializer(posts, many=True)
+            queryset = queryset.filter(sub_category__title__iexact=sub_category)
+        if location is not None:
+            queryset = queryset.filter(location__iexact=location)
+        if min_price is not None:
+            queryset = queryset.filter(price__gte=min_price)
+        if max_price is not None:
+            queryset = queryset.filter(price__lte=max_price)
+        if request.query_params == {}:
+            queryset = queryset
+        serializer = self.get_serializer(queryset, many=True)
         return Response({"response": serializer.data}, status=status.HTTP_200_OK)
 
 

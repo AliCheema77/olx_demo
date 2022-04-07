@@ -238,7 +238,7 @@ class PropertyForSaleFilterView(APIView):
         property_type = request.query_params.get('property_type')
         if property_type is not None:
             property_type = property_type.split(',')
-            queryset = queryset.filter(area__in=property_type)
+            queryset = queryset.filter(type__in=property_type)
         features = request.query_params.get('features')
         if features is not None:
             features = features.split(',')

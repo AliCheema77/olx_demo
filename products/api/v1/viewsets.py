@@ -215,7 +215,7 @@ class VehicleFilterView(APIView):
 
 
 class PropertyForSaleFilterView(APIView):
-    serializer_class = GetPostSerializer
+    serializer_class = LandAndPlotPostSerializer
 
     def get(self, request, sub_category_title=None):
         response = {}
@@ -242,10 +242,11 @@ class PropertyForSaleFilterView(APIView):
         features = request.query_params.get('features')
         if features is not None:
             features = features.split(',')
-            queryset = queryset.filter(features__in=features)
+            queryset = queryset.filter(features__exact=features)
         area_unit = request.query_params.get('area_unit')
         if area_unit is not None:
-            queryset = queryset.filter(aria_unit__iexact=area_unit)
+            area_unit = area_unit.split(',')
+            queryset = queryset.filter(aria_unit__in=area_unit)
         if request.query_params == {}:
             queryset = queryset
         serializer = self.serializer_class(queryset, many=True)

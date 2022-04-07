@@ -6,7 +6,7 @@ from rest_framework import status
 from products.models import Category, SubCategory, Post, PostImage
 from products.api.v1.serializers import CategorySerializer, SubCategorySerializer, PostImageSerializer,\
     CarPostSerializer, LandAndPlotPostSerializer, GetPostSerializer
-from django.db.models import Q
+from django.db.models import Q, Count
 
 
 def modify_input_for_multiple_files(post, image):
@@ -197,7 +197,19 @@ class VehicleFilterView(APIView):
         if request.query_params == {}:
             queryset = queryset
         serializer = self.serializer_class(queryset, many=True)
-        return Response({'res': serializer.data}, status=status.HTTP_200_OK)
+        response['response'] = serializer.data
+        filter_set = Post.objects.filter(sub_category__title__iexact=sub_category_title)
+        post_per_location = filter_set.values("location").annotate(count=Count('location'))
+        for i in range(len(post_per_location)):
+            key = post_per_location[0].get('location')
+            value = post_per_location[0].get('count')
+            response[key] = value
+        post_per_city = filter_set.values("city").annotate(count=Count('city'))
+        for i in range(len(post_per_location)):
+            key = post_per_city[0].get('location')
+            value = post_per_city[0].get('count')
+            response[key] = value
+        return Response({'res': response}, status=status.HTTP_200_OK)
 
 
 class PropertyForSaleFilterView(APIView):
@@ -235,7 +247,19 @@ class PropertyForSaleFilterView(APIView):
         if request.query_params == {}:
             queryset = queryset
         serializer = self.serializer_class(queryset, many=True)
-        return Response({'res': serializer.data}, status=status.HTTP_200_OK)
+        response['response'] = serializer.data
+        filter_set = Post.objects.filter(sub_category__title__iexact=sub_category_title)
+        post_per_location = filter_set.values("location").annotate(count=Count('location'))
+        for i in range(len(post_per_location)):
+            key = post_per_location[0].get('location')
+            value = post_per_location[0].get('count')
+            response[key] = value
+        post_per_city = filter_set.values("city").annotate(count=Count('city'))
+        for i in range(len(post_per_location)):
+            key = post_per_city[0].get('location')
+            value = post_per_city[0].get('count')
+            response[key] = value
+        return Response({'res': response}, status=status.HTTP_200_OK)
 
 
 

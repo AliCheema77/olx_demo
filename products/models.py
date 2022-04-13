@@ -89,3 +89,20 @@ class PostImage(models.Model):
         verbose_name = "Post Image"
         verbose_name_plural = "Post Images"
 
+
+class Chat(models.Model):
+    content = models.CharField(max_length=1000)
+    timestamp = models.DateField(auto_now=True)
+    group = models.ForeignKey('Group', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.group.name
+
+
+class Group(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+

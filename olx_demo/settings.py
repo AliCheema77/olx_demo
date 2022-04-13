@@ -34,6 +34,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -90,7 +91,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'olx_demo.wsgi.application'
+# WSGI_APPLICATION = 'olx_demo.wsgi.application'
+ASGI_APPLICATION = 'olx_demo.asgi.application'
 
 
 # Database
@@ -175,6 +177,15 @@ SOCIALACCOUNT_PROVIDERS = {
         "APP": {
             "client_id": "371268618191-hl4f7upd84vkrdc3094od7ftdf0ddusl.apps.googleusercontent.com",
             "secret": "e7wB7ezrlRxJC0TX6qhOo6Jg",
+        },
+    },
+}
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
         },
     },
 }

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'users',
     'products',
+    'chat',
 
     'rest_framework',
     'rest_framework.authtoken',

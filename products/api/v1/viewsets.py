@@ -3,9 +3,9 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from products.models import Category, SubCategory, Post, PostImage, Group, Chat
+from products.models import Category, SubCategory, Post, PostImage
 from products.api.v1.serializers import CategorySerializer, SubCategorySerializer, PostImageSerializer,\
-    CarPostSerializer, LandAndPlotPostSerializer, GetPostSerializer, ChatSerializer, GroupSerializer
+    CarPostSerializer, LandAndPlotPostSerializer, GetPostSerializer
 from django.db.models import Q, Count
 
 
@@ -338,21 +338,3 @@ class SearchPostByTitleView(APIView):
             value = post_per_city[i].get('count')
             response[key] = value
         return Response({'res': response}, status=status.HTTP_200_OK)
-
-
-class MyConsumerView(APIView):
-    serializer_class = ChatSerializer
-
-    def get(self, request, group_name=None):
-        group = Group.objects.filter(name=group_name).first()
-        chats = ""
-        if group:
-            chats = Chat.objects.filter(group=group)
-        else:
-            group = Group(name=group_name)
-            group.save()
-        serializer = self.serializer_class(chats, many=True)
-        return Response({'res': serializer.data})
-
-
-

@@ -34,7 +34,6 @@ CORS_ORIGIN_ALLOW_ALL = True
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -91,8 +90,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'olx_demo.wsgi.application'
-ASGI_APPLICATION = 'olx_demo.asgi.application'
+WSGI_APPLICATION = 'olx_demo.wsgi.application'
 
 
 # Database
@@ -181,14 +179,6 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("redis", 6379)],
-        },
-    },
-}
 
 django_heroku.settings(locals())
 

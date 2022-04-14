@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from products.models import Category, SubCategory, PostImage, Post, Chat, Group
+from products.models import Category, SubCategory, PostImage, Post
 
 
 class SubCategorySerializer(serializers.ModelSerializer):
@@ -76,17 +76,3 @@ class LandAndPlotPostSerializer(serializers.ModelSerializer):
         data['category'] = instance.category.title
         data['sub_category'] = instance.sub_category.title
         return data
-
-
-class ChatSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Chat
-        fields = '__all__'
-
-
-class GroupSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Group
-        fields = '__all__'

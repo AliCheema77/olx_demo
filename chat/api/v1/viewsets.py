@@ -12,7 +12,7 @@ User = get_user_model()
 
 class ChatView(APIView):
     serializer_class = ChatSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, post_id=None, buyer_id=None):
         if post_id is not None and buyer_id is not None:
@@ -58,7 +58,7 @@ class ChatView(APIView):
 
 class ChatGroupView(APIView):
     serializer_class = ChatGroupSerializer
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request, buyer_id=None):
         if buyer_id is not None:

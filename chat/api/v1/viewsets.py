@@ -29,10 +29,10 @@ class ChatView(APIView):
         post_title = post_id.ad_title
         if serializer.is_valid(raise_exception=True):
             if username is not None and post_title is not None:
-                chat_group = ChatGroup.objects.filter(username=username, post_title=post_title,
-                                                      buyer=buyer_id).first()
+                chat_group = ChatGroup.objects.filter(buyer=buyer_id, seller=post_id.user, post=post_id).first()
                 if chat_group is None:
-                    chat_group = ChatGroup(username=username, post_title=post_title, buyer=buyer_id)
+                    chat_group = ChatGroup(username=username, post_title=post_title, buyer=buyer_id,
+                                           seller=post_id.user, seller_image=post_id.user.image, post=post_id)
                 chat_group.last_message = serializer.validated_data['message']
                 chat_group.save()
             chats = Chat(post=post_id, buyer=buyer_id, message=serializer.validated_data['message'],

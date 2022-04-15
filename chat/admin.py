@@ -9,4 +9,4 @@ class ChatAdmin(admin.ModelAdmin):
 
 @admin.register(ChatGroup)
 class ChatGroupAdmin(admin.ModelAdmin):
-    list_display = ['username', 'post_title', 'last_message', 'buyer']
+    list_display = ['username', 'post_title', 'last_message', 'buyer', 'seller', 'seller_image', 'post']

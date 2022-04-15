@@ -19,6 +19,9 @@ class Chat(models.Model):
 
 class ChatGroup(models.Model):
     username = models.CharField(max_length=100)
+    seller_image = models.ImageField(upload_to='chat/', null=True, blank=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_chat_group", null=True, blank=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_chat_group", null=True, blank=True)
     post_title = models.CharField(max_length=250)
     last_message = models.CharField(max_length=1000)
     buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_group')

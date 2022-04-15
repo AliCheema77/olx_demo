@@ -15,3 +15,13 @@ class Chat(models.Model):
 
     def __str__(self):
         return self.post.ad_title
+
+
+class ChatGroup(models.Model):
+    username = models.CharField(max_length=100)
+    post_title = models.CharField(max_length=250)
+    last_message = models.CharField(max_length=1000)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='chat_group')
+
+    def __str__(self):
+        return self.username
